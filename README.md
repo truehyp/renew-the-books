@@ -9,3 +9,5 @@ http://lib.cjlu.edu.cn
 
 ### 用法
 `python3 renew-the-books.py`
+
+按照提示，输入用户名和密码（终端下密码不回显）
