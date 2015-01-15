@@ -1,7 +1,7 @@
 # renew-the-books
 2015-01-15
 
-用python3所写，适用于*中国计量学院图书馆*图书续借
+用python3所写，适用于**中国计量学院图书馆**图书续借
 
 http://lib.cjlu.edu.cn  
 
