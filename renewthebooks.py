@@ -15,19 +15,22 @@ import os
 
 
 def renew_history():
-    #读者借阅历史
-    data2=b'dzhm='+name.encode('gb2312')+b'&cxsj1=2011-01-01&cxsj2=2015-06-01&submit=%B6%C1%D5%DF%BD%E8%D4%C4%C0%FA%CA%B7'
-    ls_request=urllib.request.Request('http://lib.cjlu.edu.cn/ttweb/dzjyls.php',data2)
-    response=opener.open(ls_request)
-    #win7的cmd默认为gbk编码，用ignore参数忽略gbk无法编码的字符
-    ans=response.read().decode('gbk','ignore')
-    #正则表达式取值
-    bookitem=re.findall(r'<tr><td>(.*?)</td>.*?<td>.*?</td>.*?<td>.*?</td>.*?<td>(.*?)</td>.*?<td>(.*?)</td></tr>',ans,re.S)
-    #导出到文件
-    fp=open('book.txt','w')
-    for item in bookitem:
-        fp.write(str(item[0])+' '+str(item[1])+' '+str(item[2]+'\n'))
+	#读者借阅历史
+	print ('正在导出...')        
+	data2=b'dzhm='+name.encode('gb2312')+b'&cxsj1=2011-01-01&cxsj2=2015-06-01&submit=%B6%C1%D5%DF%BD%E8%D4%C4%C0%FA%CA%B7'
+	history_request=urllib.request.Request('http://lib.cjlu.edu.cn/ttweb/dzjyls.php',data2)
+	response=opener.open(history_request)
+	#win7的cmd默认为gbk编码，用ignore参数忽略gbk无法编码的字符
+	ans=response.read().decode('gbk','ignore')
+	#正则表达式取值
+	bookitem=re.findall(r'<tr><td>(.*?)</td>.*?<td>.*?</td>.*?<td>.*?</td>.*?<td>(.*?)</td>.*?<td>(.*?)</td></tr>',ans,re.S)
+	#导出到文件
+	fp=open('book.txt','w')
+	for item in bookitem:
+		fp.write(str(item[0])+' '+str(item[1])+' '+str(item[2]+'\n'))
 
+	fp.close()
+	print ('共'+str(len(bookitem))+'条借阅历史记录\n已导出到'+os.getcwd()+os.sep+'book.txt')
 
 def renew_book(ans):
 	#匹配书的编号
@@ -77,9 +80,7 @@ if re.findall(r'重新输入',ans):
 	input("按任意键退出: ")
 	exit()
 if input('回车直接续借图书\n空格再回车导出图书借阅历史: ')==' ':
-	print ('正在导出...')
 	renew_history()
-	print ('借阅历史已导出到'+os.getcwd()+os.sep+'book.txt')
 	exit()
 else:
 	renew_book(ans)
